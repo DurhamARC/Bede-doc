@@ -45,15 +45,11 @@ There are:
 
 -  1x ``ghlogin`` node, containing
 
-   - 1x `NVIDIA Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_ (GH200 480GB)
+   - 1x `NVIDIA Grace Superchip <https://www.nvidia.com/en-gb/data-center/grace-cpu-superchip/>`_
 
-     - 1x NVIDIA Grace aarch64 CPU @ 3.483 GHz (72 Arm Neoverse V2 cores)
-     - 1x NVIDIA H100 96GB with 900 GB/s NVLink-C2C
+     - 2x NVIDIA Grace aarch64 CPU @ 3.483 GHz (72 Arm Neoverse V2 cores)
 
-   - 480 GB LPDDR5X RAM
-   - 1x Mellanox CONNECTX-7 NDR200 (100Gb/s due to existing network) InfiniBand port
-
--  5x ``gh`` nodes, each containing
+-  7x ``gh`` nodes, each containing
 
    - 1x `NVIDIA Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_ (GH200 480GB)
 

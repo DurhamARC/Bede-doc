@@ -217,7 +217,7 @@ As described on the :ref:`hardware` page, Bede contains a mix of nodes using 2 C
 Bede's original nodes contain Power 9 CPUs (``ppc64le``), with Nvidia Volta and Turing architecture GPUs (``SM_70`` & ``sm_75``).
 Jobs in the ``gpu``, ``test`` and ``infer`` partitions will run on ``ppc64le`` architecture nodes.
 
-The newer Grace Hopper open pilot include `NVIDIA Grace Hopper Superchips <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_ which are composed of an ARM CPU (``aarch64``) and an NVIDIA Hopper GPU (``sm_90``).
+The newer Grace Hopper open pilot include compute nodes with `NVIDIA Grace Hopper Superchips <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_ which are composed of an ARM CPU (``aarch64``) and an NVIDIA Hopper GPU (``sm_90``). These have a node providing interactive login sessions allowing you to prepare your work, which is based on the `NVIDIA Grace Superchip <https://www.nvidia.com/en-gb/data-center/grace-cpu/>`_ composed of two ARM CPUs.
 Jobs in the ``ghlogin``, ``gh`` and ``ghtest`` partitions will run on the ``aarch64`` architecture nodes.
 
 
@@ -226,10 +226,10 @@ Jobs in the ``ghlogin``, ``gh`` and ``ghtest`` partitions will run on the ``aarc
 Connecting to the ``ghlogin`` node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To get an interactive login-session on a Grace-Hopper node in the ``ghlogin`` partition, you must connect to Bede's regular login nodes as usual via ssh / x2go.
+To get an interactive login-session for the Grace Hopper environment in the ``ghlogin`` partition, you must connect to Bede's regular login nodes as usual via ssh / x2go.
 
 Once connected, the ``ghlogin`` command can be used to request an interactive session on the ``ghlogin`` node.
-The login environment includes shared (unrestricted) access to the Hopper GPU, and by default will provide 4 CPU cores and 16GB of RAM for 8 hours.
+The login environment provides a CPU and OS environment on a Grace node, which is compatible with the Grace Hoppers but without access to a GPU. By default it will provide 4 CPU cores and 16GB of RAM for 8 hours.
 Use additional srun style flags to request a different duration or resources. 
 You must provide your project account.
 
@@ -242,9 +242,20 @@ You must provide your project account.
    ghlogin -A <project> --time 4:00:00 -c 8 --mem 24G
 
 
-This will provide shell access to the login environment, which is a single Grace Hopper superchip.
+This will provide shell access to the login environment, which is a single Grace superchip.
 Access is mediated by slurm and you'll have a default of 4 cores and 1GB RAM for 8 hours (amend by adding srun style flags to the ``ghlogin`` command).
-Access to the GPU in the login environment is currently unrestricted.
+
+Despite there being no GPU in the login environment, it can be used to compile CUDA applications by loading the CUDA "stub" libraries:
+
+.. code-block:: bash
+
+   # load cuda libraries
+   module load cuda/12.6.2
+
+   # make stub driver libraries available
+   export LD_LIBRARY_PATH=/usr/lib64:$CUDA_HOME/lib64/stubs:$LD_LIBRARY_PATH
+
+the ``ghtest`` queue can be used to run short test programs requiring a GPU (see the Running Jobs section)
 
 
 Running Jobs
@@ -495,7 +506,9 @@ Jobs are scheduled subject to Slurm's `Multifactor Priority Plugin <https://slur
 Grace-Hopper Pilot
 ------------------
 
-Bede contains 6 NVIDIA Grace-Hopper nodes.
+Bede contains 1 NVIDIA Grace-CPU node and 7 NVIDIA Grace-Hopper nodes.
+
+Each Grace-CPU node node contains a single `Grace Superchip <https://www.nvidia.com/en-gb/data-center/grace-cpu/>`_, containing two 72-core 64-bit ARM CPUs. Further details are listed on the :ref:`hardware` page.
 
 Each Grace-Hopper node contains a single `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_, containing one 72-core 64-bit ARM CPU and one 96GB Hopper GPU with NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU. Further details are listed on the :ref:`hardware` page.
 
@@ -503,7 +516,7 @@ Each Grace-Hopper node contains a single `Grace Hopper Superchip <https://www.nv
 Connecting to the ``ghlogin`` node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To get an interactive login-session on a Grace-Hopper node in the ``ghlogin`` partition, you must connect to Bede's regular login nodes as usual via ssh / x2go.
+To get an interactive login-session for the Grace-Hopper environment in the ``ghlogin`` partition, you must connect to Bede's regular login nodes as usual via ssh / x2go.
 
 Once connected, the ``ghlogin`` command can be used to request an interactive session on the ``ghlogin`` node.
 
@@ -522,10 +535,10 @@ Further details and example batch job submission scripts are provided in the :re
 Software availability
 ~~~~~~~~~~~~~~~~~~~~~
 
-The Grace-Hopper nodes contain ``aarch64`` architecture CPUs, rather than the ``ppc64le`` architecture CPUs in the other Bede nodes.
+The nodes in the Grace-Hopper environment contain ``aarch64`` architecture CPUs, rather than the ``ppc64le`` architecture CPUs in the other Bede nodes.
 As such, software built for the ``ppc64le`` CPUs will not run on the ``aarch64`` CPUs and vice versa.
 
-The Grace-Hopper nodes are also running a newer operating (Rocky 9) system than the ppc64le nodes (RHEL 8), which can impact software availability.
+The Grace-Hopper environment also features a newer operating (Rocky 9) system than the ppc64le nodes (RHEL 8), which can impact software availability.
 
 Use ``module avail`` from the ``ghlogin`` node to list centrally provided software modules for the grace-hopper nodes.
 
