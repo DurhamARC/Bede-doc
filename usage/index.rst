@@ -510,19 +510,23 @@ Bede contains 1 NVIDIA Grace-CPU node and 8 NVIDIA Grace-Hopper nodes.
 
 Each Grace-CPU node node contains a single `Grace Superchip <https://www.nvidia.com/en-gb/data-center/grace-cpu/>`_, containing two 72-core 64-bit ARM CPUs. Further details are listed on the :ref:`hardware` page.
 
-There are two types of Grace-Hopper node. 7 nodes contain:
+There are two types of Grace-Hopper node:
 
-- 1x `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_
+- 7 nodes:
 
-  - one 72-core 64-bit ARM CPU
-  - one 96GB Hopper GPU
-  - NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU.
+  - 1x `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_, each with:
 
-- 2x `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_
+    - one 72-core 64-bit ARM CPU
+    - one 96GB Hopper GPU
+    - NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU.
 
-  - one 72-core 64-bit ARM CPU
-  - one 144GB Hopper GPU
-  - NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU.
+- 1 node:
+
+  - 2x `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_, each with:
+
+    - one 72-core 64-bit ARM CPU
+    - one 144GB Hopper GPU
+    - NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU.
 
 Further details are listed on the :ref:`hardware` page.
 
