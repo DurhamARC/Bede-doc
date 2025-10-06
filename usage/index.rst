@@ -344,11 +344,11 @@ Part of, or an entire node
          #SBATCH --time=0:15:0       # Run for a max of 15 minutes
 
          # Node resources:
-         # 1 gpu per node
+         # (choose between 1-2 gpus per node)
 
          #SBATCH --partition=ghtest  # Choose either "gh" or "ghtest"
          #SBATCH --nodes=1           # Resources from a single node
-         #SBATCH --gres=gpu:1        # One GPU per node (plus 100% of node CPU and RAM per GPU)
+         #SBATCH --gres=gpu:1        # One GPU per node (plus 72 CPU cores and 480GB RAM)
 
          # Run commands:
 
@@ -406,7 +406,7 @@ CPUs/GPUs across one or more machines, via ``bede-mpirun``:
 
          #SBATCH --partition=gh     # Choose either "gh" or"ghtest" partition type
          #SBATCH --nodes=2          # Resources from two nodes
-         #SBATCH --gres=gpu:1       # 1 GPU per node (plus 100% of node CPU and RAM per node)
+         #SBATCH --gres=gpu:1       # One GPU per node (plus 72 CPU cores and 480GB RAM)
 
          # Run commands:
 
@@ -416,7 +416,7 @@ CPUs/GPUs across one or more machines, via ``bede-mpirun``:
 
       .. note::
 
-         There are only ``2`` ``gh`` nodes currently available for batch jobs in Bede. As a result multi-node Grace-Hopper jobs may queue for a significant time. 
+         There are only ``8`` ``gh`` nodes currently available for batch jobs in Bede. As a result multi-node Grace-Hopper jobs may queue for a significant time. 
 
 The ``bede-mpirun`` command takes both ordinary ``mpirun`` arguments and
 the special ``--bede-par <distrib>`` option, allowing control over how
@@ -506,11 +506,29 @@ Jobs are scheduled subject to Slurm's `Multifactor Priority Plugin <https://slur
 Grace-Hopper Pilot
 ------------------
 
-Bede contains 1 NVIDIA Grace-CPU node and 7 NVIDIA Grace-Hopper nodes.
+Bede contains 1 NVIDIA Grace-CPU node and 8 NVIDIA Grace-Hopper nodes.
 
 Each Grace-CPU node node contains a single `Grace Superchip <https://www.nvidia.com/en-gb/data-center/grace-cpu/>`_, containing two 72-core 64-bit ARM CPUs. Further details are listed on the :ref:`hardware` page.
 
-Each Grace-Hopper node contains a single `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_, containing one 72-core 64-bit ARM CPU and one 96GB Hopper GPU with NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU. Further details are listed on the :ref:`hardware` page.
+There are two types of Grace-Hopper node:
+
+- 7 nodes:
+
+  - 1x `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_, each with:
+
+    - one 72-core 64-bit ARM CPU
+    - one 96GB Hopper GPU
+    - NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU.
+
+- 1 node:
+
+  - 2x `Grace Hopper Superchip <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_, each with:
+
+    - one 72-core 64-bit ARM CPU
+    - one 144GB Hopper GPU
+    - NVLink-C2C providing 900GB/s of bidirectional bandwidth between the CPU and GPU.
+
+Further details are listed on the :ref:`hardware` page.
 
 
 Connecting to the ``ghlogin`` node
@@ -528,7 +546,7 @@ Batch Jobs
 To submit a job to a Grace Hopper compute node, you can use ``sbatch`` or ``srun`` as normal from within a ``ghlogin`` session.
 Alternatively, use the ``ghbatch`` or ``ghrun`` commands from a Bede login node.
 
-Your job submission scripts should specify the ``--partition=gh`` or ``--partition=ghtest``. 
+Your job submission scripts should specify the ``--partition=gh`` or ``--partition=ghtest``. Jobs will be allocated a Grace-Hopper with either 96GB or 144GB of GPU memory. To specifically request a type, replace ``--gres=gpu:1`` in your submission script with ``--gres=gpu:gh200:1`` (for 96GB), or ``--gres=gpu:gh200_144g:1`` (for 144GB).
 
 Further details and example batch job submission scripts are provided in the :ref:`usage_requesting_resources` section above.
 

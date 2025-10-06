@@ -59,6 +59,17 @@ There are:
    - 480 GB LPDDR5X RAM
    - 1x Mellanox CONNECTX-7 NDR200 (100Gb/s due to existing network) InfiniBand port
 
+-  1x ``gh`` node containing
+
+   - 2x `NVIDIA Grace Hopper Superchips <https://www.nvidia.com/en-gb/data-center/grace-hopper-superchip/>`_ (GH200 144G HBM3e)
+
+     - 1x NVIDIA Grace aarch64 CPU @ 3.483 GHz (72 Arm Neoverse V2 cores)
+     - 1x NVIDIA H100 144GB with 900 GB/s NVLink-C2C
+
+   - 960 GB LPDDR5X RAM
+   - 2x Mellanox CONNECTX-7 NDR200 (100Gb/s due to existing network) InfiniBand port
+
+
 
 The Mellanox EDR InfiniBand interconnect is organised in a 2:1 block fat
 tree topology. GPUDirect RDMA transfers are supported on the 32 ``gpu``
